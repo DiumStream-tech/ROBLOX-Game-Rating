@@ -1,0 +1,17 @@
+✧༺♥༻∞　do these in command prompt　∞༺♥༻✧
+ 
+note | this was made by a beginner.
+make sure you have node.js
+
+----------------------------------------------------
+i think you start these with a "$" if you have a mac.
+----------------------------------------------------
+
+npm init
+npm install --save open
+npm install --save request request-promise cheerio puppeteer
+npm install prompt-sync
+
+---------------------------------------------------
+also follow me on roblox lol:
+    https://www.roblox.com/users/1957038621/profile.

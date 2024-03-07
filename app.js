@@ -1,94 +1,69 @@
-// -- Scripped -- //
+const errortext = "Une erreur s'est produite.";
 
-var errortext = "An error occurred.";
-
-console.log();
 console.log("ROBLOX Game Rating.");
-console.log("This was built by Scripped.");
-console.log();
-console.log("Contact:");
-console.log();
-console.log("GitHub: https://github.com/Scripped.");
-console.log("Roblox: https://www.roblox.com/users/1957038621/profile.");
+console.log("Cela a été construit par Scripped.");
+console.log("Contact :");
+console.log("GitHub : https://github.com/Scripped.");
+console.log("Roblox : https://www.roblox.com/users/1320435442/profile.");
 console.log();
 
-const prompt = require('prompt-sync')({sigint: true});
+const prompt = require('prompt-sync')({ sigint: true });
+const cheerio = require('cheerio');
 
-var gameid = prompt('Enter a game ID (Right click to paste):');
+function openLink(link) {
+    const follow = prompt("Voulez-vous que j'ouvre le lien pour vous ? (O/N) : ").toLowerCase();
+    if (follow === "o" || follow === "oui") {
+        import('open').then((open) => open(link)).catch((error) => console.error(error));
+    }
+}
+
+function joinGame(url) {
+    const gameoption = prompt("Voulez-vous rejoindre le jeu ? (O/N) : ").toLowerCase();
+    if (gameoption === "o" || gameoption === "oui") {
+        import('open').then((open) => open(url)).catch((error) => console.error(error));
+    } else {
+        console.log("D'accord.");
+        console.log("Cliquez sur CTRL + C pour quitter, car il n'y a vraiment rien d'autre à faire ici.");
+        console.log("Si vous lisez encore, veuillez me suivre sur Roblox : ");
+        console.log("https://www.roblox.com/users/1320435442/profile");
+        console.log();
+        openLink('https://www.roblox.com/users/1320435442/profile');
+        process.exit(1);
+    }
+}
+
+const gameid = prompt("Entrez un ID de jeu (faites un clic droit pour coller) : ");
 
 const puppeteer = require('puppeteer');
-const $ = require('cheerio');
-const url = "https://www.roblox.com/games/"+ gameid +"/";
-const open = require('open');
-
+const url = `https://www.roblox.com/games/${gameid}/`;
 
 puppeteer
-.launch()
-.then(function(browser) {
-    return browser.newPage();
-})
-.then(function(page) {
-    return page.goto(url).then(function() {
-        return page.content();
+    .launch()
+    .then((browser) => browser.newPage())
+    .then((page) => page.goto(url).then(() => page.content()))
+    .then((html) => {
+        const $ = cheerio.load(html);
+
+        $('.game-name').each(function () {
+            console.log("Nom du jeu : " + $(this).text());
+        });
+        $('.game-creator > .text-name').each(function () {
+            console.log("Créateur du jeu : " + $(this).text());
+        });
+        $('#vote-up-text').each(function () {
+            console.log("J'aime : " + $(this).text());
+        });
+        $('#vote-down-text').each(function () {
+            console.log("Je n'aime pas : " + $(this).text());
+        });
+
+        joinGame(url);
+    })
+    .catch((err) => {
+        console.log(errortext);
+        console.error(err);
+        process.exit(1);
+    })
+    .finally(() => {
+        console.log("CONSEIL : Cliquez sur CTRL + C pour quitter.");
     });
-})
-.then(function(html) {
-    $('.game-name', html).each(function() {
-        console.log("Game Name: " + $(this).text());
-    })
-    $('.game-creator > .text-name', html).each(function() {
-        console.log("Game Creator: " + $(this).text());
-    })
-    $('#vote-up-text', html).each(function() {
-        console.log( "Likes: " + $(this).text());
-    })
-    $('#vote-down-text', html).each(function() {
-        console.log( "Dislikes: " + $(this).text());
-
-        
-
-            var gameoption = prompt("Would you like to join the game? (Y/N)");
-            if (gameoption === "N" ||  gameoption === "no" ||  gameoption === "No" ||  gameoption === "NO" ||  gameoption === "n") {
-                console.log();
-                console.log("Alright.");
-                console.log("Click CTRL + C to quit since there isn't really anything else to do on this.");
-                console.log("If you're still reading, pls follow me on roblox: ");
-                console.log("https://www.roblox.com/users/1957038621/profile");
-                console.log()
-
-                    var follow = prompt("Should I open the link for you? (Y/N)");
-
-                    if (follow === "N" || follow === "no" ||  follow === "No" ||  follow === "NO" || follow === "n") {
-                    console.log();
-                    console.log("Okay, then lol bye.");
-                    process.exit(1);
-                    }
-                    else if (follow === "y" ||  follow === "Y" ||  follow === "Yes" ||  follow === "yes" ||  follow === "YES") {
-                        
-                            open('https://www.roblox.com/users/1957038621/profile');
-
-                        }
-                        else {
-                            open('https://www.roblox.com/users/1957038621/profile');
-                        }
-
-            }
-
-            else if (gameoption === "y" ||  gameoption === "Y" ||  gameoption === "Yes" ||  gameoption === "yes" ||  gameoption === "YES")  {
-                open(url)
-            }
-
-            else {
-                process.exit(1);
-            }
-
-
-        })    
-
-})
-
-.catch(function(err) {
-    console.log(errortext);
-    process.exit(1);
-})
-console.log('TIP: Click CTRL + C to quit.')

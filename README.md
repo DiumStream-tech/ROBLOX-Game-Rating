@@ -10,5 +10,5 @@ Web scrapes the game rating of a ROBLOX game
 
 # Contact
 
-GitHub: https://github.com/Scripped |
-Roblox: https://www.roblox.com/users/1957038621/profile
+GitHub: https://github.com/DiumStream-tech/ |
+Roblox: https://www.roblox.com/users/1320435442/profile

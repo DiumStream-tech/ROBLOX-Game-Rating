@@ -1,9 +1,9 @@
 const errortext = "Une erreur s'est produite.";
 
 console.log("ROBLOX Game Rating.");
-console.log("Cela a été construit par Scripped.");
+console.log("Cela a été construit par DiumStream-tech.");
 console.log("Contact :");
-console.log("GitHub : https://github.com/Scripped.");
+console.log("GitHub : https://github.com/DiumStream-tech.");
 console.log("Roblox : https://www.roblox.com/users/1320435442/profile.");
 console.log();
 
